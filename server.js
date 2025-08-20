@@ -14,7 +14,6 @@ const logger = require('./src/utils/logger');
 const routes = require('./src/routes');
 const errorHandler = require('./src/middleware/errorHandler');
 const socketHandler = require('./src/services/socketHandler');
-const listEndpoints = require('express-list-endpoints');
 
 const app = express();
 const server = http.createServer(app);
@@ -66,9 +65,9 @@ app.get('/', (req, res) => {
 
 // Start server
 const PORT = process.env.PORT || 10000;
+
 server.listen(PORT, () => {
   console.log(`🚀 Server listening on port ${PORT}`);
-  console.table(listEndpoints(app));
 });
 
 module.exports = { app, io };
