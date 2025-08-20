@@ -14,6 +14,7 @@ const logger = require('./src/utils/logger');
 const routes = require('./src/routes');
 const errorHandler = require('./src/middleware/errorHandler');
 const socketHandler = require('./src/services/socketHandler');
+const listEndpoints = require('express-list-endpoints');
 
 const app = express();
 const server = http.createServer(app);
@@ -48,7 +49,7 @@ app.get('/health', (_req, res) => res.json({ status: 'ok', ts: new Date().toISOS
 app.use('/api', routes);
 
 // 404
-app.use((req, res, next) => {
+app.use((req, res) => {
   res.status(404).json({ error: 'Not Found' });
 });
 
@@ -58,20 +59,14 @@ app.use(errorHandler);
 // Sockets
 socketHandler(io);
 
-// Start
+// Root route
+app.get('/', (req, res) => {
+  res.send('🚀 Backend API is running...');
+});
+
+// Start server
 const PORT = process.env.PORT || 10000;
-app.listen(PORT, () => {
-  console.log(`🚀 Server listening on port ${PORT}`);
-});
-
-app.get("/", (req, res) => {
-  res.send("🚀 Backend API is running...");
-});
-
-const listEndpoints = require("express-list-endpoints");
-
-// Print endpoints when server starts
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`🚀 Server listening on port ${PORT}`);
   console.table(listEndpoints(app));
 });
