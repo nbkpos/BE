@@ -68,4 +68,12 @@ app.get("/", (req, res) => {
   res.send("🚀 Backend API is running...");
 });
 
+const listEndpoints = require("express-list-endpoints");
+
+// Print endpoints when server starts
+app.listen(PORT, () => {
+  console.log(`🚀 Server listening on port ${PORT}`);
+  console.table(listEndpoints(app));
+});
+
 module.exports = { app, io };
