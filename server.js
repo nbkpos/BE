@@ -64,4 +64,8 @@ server.listen(PORT, () => {
   logger.info(`Server listening on port ${PORT}`);
 });
 
+app.get("/", (req, res) => {
+  res.send("🚀 Backend API is running...");
+});
+
 module.exports = { app, io };
